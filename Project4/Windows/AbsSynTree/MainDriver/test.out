@@ -1,0 +1,10 @@
+Abstract syntax for test.tig:
+OpExp(0,
+  VarExp(0,
+    FieldVar(0,
+      SubscriptVar(0,
+        SimpleVar(0, a),
+        IntExp(2, 17)),
+      name)),
+  PLUS,
+  IntExp(11, 1))

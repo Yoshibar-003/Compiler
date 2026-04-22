@@ -1,0 +1,2254 @@
+State 5 conflicts: 1 shift/reduce
+State 10 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: class_list
+
+    2 class_list: class
+    3           | error ';'
+    4           | class class_list
+    5           | class_list error ';'
+
+    6 class: CLASS TYPEID '{' optional_feature_list '}' ';'
+    7      | CLASS TYPEID INHERITS TYPEID '{' optional_feature_list '}' ';'
+
+    8 optional_feature_list: /* empty */
+    9                      | feature_list
+
+   10 feature_list: feature ';'
+   11             | feature ';' feature_list
+   12             | error ';' feature_list
+   13             | error ';'
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' TYPEID '{' expr '}'
+   15        | OBJECTID ':' TYPEID
+   16        | OBJECTID ':' TYPEID ASSIGN expr
+
+   17 optional_formal_list: /* empty */
+   18                     | formal_list
+
+   19 formal_list: formal
+   20            | formal ',' formal_list
+
+   21 formal: OBJECTID ':' TYPEID
+
+   22 expr: OBJECTID ASSIGN expr
+   23     | expr '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   25     | OBJECTID '(' optional_arg_list ')'
+   26     | IF expr THEN expr ELSE expr FI
+   27     | WHILE expr LOOP expr POOL
+   28     | '{' expr_seq '}'
+   29     | LET let_binding_list IN expr
+   30     | CASE expr OF case_branch_list ESAC
+   31     | NEW TYPEID
+   32     | ISVOID expr
+   33     | '~' expr
+   34     | NOT expr
+   35     | expr '+' expr
+   36     | expr '-' expr
+   37     | expr '*' expr
+   38     | expr '/' expr
+   39     | expr '<' expr
+   40     | expr LE expr
+   41     | expr '=' expr
+   42     | '(' expr ')'
+   43     | OBJECTID
+   44     | INT_CONST
+   45     | STR_CONST
+   46     | BOOL_CONST
+
+   47 optional_arg_list: /* empty */
+   48                  | arg_list
+   49                  | error
+
+   50 arg_list: expr
+   51         | expr ',' arg_list
+   52         | expr error arg_list
+   53         | expr ',' error
+
+   54 expr_seq: expr ';'
+   55         | expr ';' expr_seq
+   56         | error ';' expr_seq
+   57         | error ';'
+
+   58 let_binding_list: let_binding
+   59                 | let_binding ',' let_binding_list
+
+   60 let_binding: OBJECTID ':' TYPEID
+   61            | OBJECTID ':' TYPEID ASSIGN expr
+
+   62 case_branch_list: case_branch
+   63                 | case_branch case_branch_list
+
+   64 case_branch: OBJECTID ':' TYPEID DARROW expr ';'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 14 23 24 25 42
+')' (41) 14 23 24 25 42
+'*' (42) 37
+'+' (43) 35
+',' (44) 20 51 53 59
+'-' (45) 36
+'.' (46) 23 24
+'/' (47) 38
+':' (58) 14 15 16 21 60 61 64
+';' (59) 3 5 6 7 10 11 12 13 54 55 56 57 64
+'<' (60) 39
+'=' (61) 41
+'@' (64) 24
+'{' (123) 6 7 14 28
+'}' (125) 6 7 14 28
+'~' (126) 33
+error (256) 3 5 12 13 49 52 53 56 57
+STR_CONST (258) 45
+TYPEID (259) 6 7 14 15 16 21 24 31 60 61 64
+OBJECTID (260) 14 15 16 21 22 23 24 25 43 60 61 64
+INT_CONST (261) 44
+BOOL_CONST (262) 46
+CLASS (263) 6 7
+IF (264) 26
+ELSE (265) 26
+FI (266) 26
+LET (267) 29
+IN (268) 29
+INHERITS (269) 7
+THEN (270) 26
+WHILE (271) 27
+LOOP (272) 27
+POOL (273) 27
+CASE (274) 30
+ESAC (275) 30
+OF (276) 30
+NOT (277) 34
+NEW (278) 31
+ISVOID (279) 32
+ASSIGN (280) 16 22 61
+LE (281) 40
+DARROW (282) 64
+LET_STMT (283)
+
+
+Nonterminals, with rules where they appear
+
+$accept (45)
+    on left: 0
+program (46)
+    on left: 1, on right: 0
+class_list (47)
+    on left: 2 3 4 5, on right: 1 4 5
+class (48)
+    on left: 6 7, on right: 2 4
+optional_feature_list (49)
+    on left: 8 9, on right: 6 7
+feature_list (50)
+    on left: 10 11 12 13, on right: 9 11 12
+feature (51)
+    on left: 14 15 16, on right: 10 11
+optional_formal_list (52)
+    on left: 17 18, on right: 14
+formal_list (53)
+    on left: 19 20, on right: 18 20
+formal (54)
+    on left: 21, on right: 19 20
+expr (55)
+    on left: 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39
+    40 41 42 43 44 45 46, on right: 14 16 22 23 24 26 27 29 30 32 33
+    34 35 36 37 38 39 40 41 42 50 51 52 53 54 55 61 64
+optional_arg_list (56)
+    on left: 47 48 49, on right: 23 24 25
+arg_list (57)
+    on left: 50 51 52 53, on right: 48 51 52
+expr_seq (58)
+    on left: 54 55 56 57, on right: 28 55 56
+let_binding_list (59)
+    on left: 58 59, on right: 29 59
+let_binding (60)
+    on left: 60 61, on right: 58 59
+case_branch_list (61)
+    on left: 62 63, on right: 30 63
+case_branch (62)
+    on left: 64, on right: 62 63
+
+
+State 0
+
+    0 $accept: . program $end
+
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
+
+    program     go to state 3
+    class_list  go to state 4
+    class       go to state 5
+
+
+State 1
+
+    3 class_list: error . ';'
+
+    ';'  shift, and go to state 6
+
+
+State 2
+
+    6 class: CLASS . TYPEID '{' optional_feature_list '}' ';'
+    7      | CLASS . TYPEID INHERITS TYPEID '{' optional_feature_list '}' ';'
+
+    TYPEID  shift, and go to state 7
+
+
+State 3
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 8
+
+
+State 4
+
+    1 program: class_list .
+    5 class_list: class_list . error ';'
+
+    error  shift, and go to state 9
+
+    $end  reduce using rule 1 (program)
+
+
+State 5
+
+    2 class_list: class .
+    4           | class . class_list
+
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
+
+    $end   reduce using rule 2 (class_list)
+    error  [reduce using rule 2 (class_list)]
+
+    class_list  go to state 10
+    class       go to state 5
+
+
+State 6
+
+    3 class_list: error ';' .
+
+    $default  reduce using rule 3 (class_list)
+
+
+State 7
+
+    6 class: CLASS TYPEID . '{' optional_feature_list '}' ';'
+    7      | CLASS TYPEID . INHERITS TYPEID '{' optional_feature_list '}' ';'
+
+    INHERITS  shift, and go to state 11
+    '{'       shift, and go to state 12
+
+
+State 8
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 9
+
+    5 class_list: class_list error . ';'
+
+    ';'  shift, and go to state 13
+
+
+State 10
+
+    4 class_list: class class_list .
+    5           | class_list . error ';'
+
+    error  shift, and go to state 9
+
+    $end   reduce using rule 4 (class_list)
+    error  [reduce using rule 4 (class_list)]
+
+
+State 11
+
+    7 class: CLASS TYPEID INHERITS . TYPEID '{' optional_feature_list '}' ';'
+
+    TYPEID  shift, and go to state 14
+
+
+State 12
+
+    6 class: CLASS TYPEID '{' . optional_feature_list '}' ';'
+
+    error     shift, and go to state 15
+    OBJECTID  shift, and go to state 16
+
+    '}'  reduce using rule 8 (optional_feature_list)
+
+    optional_feature_list  go to state 17
+    feature_list           go to state 18
+    feature                go to state 19
+
+
+State 13
+
+    5 class_list: class_list error ';' .
+
+    $default  reduce using rule 5 (class_list)
+
+
+State 14
+
+    7 class: CLASS TYPEID INHERITS TYPEID . '{' optional_feature_list '}' ';'
+
+    '{'  shift, and go to state 20
+
+
+State 15
+
+   12 feature_list: error . ';' feature_list
+   13             | error . ';'
+
+    ';'  shift, and go to state 21
+
+
+State 16
+
+   14 feature: OBJECTID . '(' optional_formal_list ')' ':' TYPEID '{' expr '}'
+   15        | OBJECTID . ':' TYPEID
+   16        | OBJECTID . ':' TYPEID ASSIGN expr
+
+    '('  shift, and go to state 22
+    ':'  shift, and go to state 23
+
+
+State 17
+
+    6 class: CLASS TYPEID '{' optional_feature_list . '}' ';'
+
+    '}'  shift, and go to state 24
+
+
+State 18
+
+    9 optional_feature_list: feature_list .
+
+    $default  reduce using rule 9 (optional_feature_list)
+
+
+State 19
+
+   10 feature_list: feature . ';'
+   11             | feature . ';' feature_list
+
+    ';'  shift, and go to state 25
+
+
+State 20
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' . optional_feature_list '}' ';'
+
+    error     shift, and go to state 15
+    OBJECTID  shift, and go to state 16
+
+    '}'  reduce using rule 8 (optional_feature_list)
+
+    optional_feature_list  go to state 26
+    feature_list           go to state 18
+    feature                go to state 19
+
+
+State 21
+
+   12 feature_list: error ';' . feature_list
+   13             | error ';' .
+
+    error     shift, and go to state 15
+    OBJECTID  shift, and go to state 16
+
+    '}'  reduce using rule 13 (feature_list)
+
+    feature_list  go to state 27
+    feature       go to state 19
+
+
+State 22
+
+   14 feature: OBJECTID '(' . optional_formal_list ')' ':' TYPEID '{' expr '}'
+
+    OBJECTID  shift, and go to state 28
+
+    $default  reduce using rule 17 (optional_formal_list)
+
+    optional_formal_list  go to state 29
+    formal_list           go to state 30
+    formal                go to state 31
+
+
+State 23
+
+   15 feature: OBJECTID ':' . TYPEID
+   16        | OBJECTID ':' . TYPEID ASSIGN expr
+
+    TYPEID  shift, and go to state 32
+
+
+State 24
+
+    6 class: CLASS TYPEID '{' optional_feature_list '}' . ';'
+
+    ';'  shift, and go to state 33
+
+
+State 25
+
+   10 feature_list: feature ';' .
+   11             | feature ';' . feature_list
+
+    error     shift, and go to state 15
+    OBJECTID  shift, and go to state 16
+
+    '}'  reduce using rule 10 (feature_list)
+
+    feature_list  go to state 34
+    feature       go to state 19
+
+
+State 26
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' optional_feature_list . '}' ';'
+
+    '}'  shift, and go to state 35
+
+
+State 27
+
+   12 feature_list: error ';' feature_list .
+
+    $default  reduce using rule 12 (feature_list)
+
+
+State 28
+
+   21 formal: OBJECTID . ':' TYPEID
+
+    ':'  shift, and go to state 36
+
+
+State 29
+
+   14 feature: OBJECTID '(' optional_formal_list . ')' ':' TYPEID '{' expr '}'
+
+    ')'  shift, and go to state 37
+
+
+State 30
+
+   18 optional_formal_list: formal_list .
+
+    $default  reduce using rule 18 (optional_formal_list)
+
+
+State 31
+
+   19 formal_list: formal .
+   20            | formal . ',' formal_list
+
+    ','  shift, and go to state 38
+
+    $default  reduce using rule 19 (formal_list)
+
+
+State 32
+
+   15 feature: OBJECTID ':' TYPEID .
+   16        | OBJECTID ':' TYPEID . ASSIGN expr
+
+    ASSIGN  shift, and go to state 39
+
+    $default  reduce using rule 15 (feature)
+
+
+State 33
+
+    6 class: CLASS TYPEID '{' optional_feature_list '}' ';' .
+
+    $default  reduce using rule 6 (class)
+
+
+State 34
+
+   11 feature_list: feature ';' feature_list .
+
+    $default  reduce using rule 11 (feature_list)
+
+
+State 35
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' optional_feature_list '}' . ';'
+
+    ';'  shift, and go to state 40
+
+
+State 36
+
+   21 formal: OBJECTID ':' . TYPEID
+
+    TYPEID  shift, and go to state 41
+
+
+State 37
+
+   14 feature: OBJECTID '(' optional_formal_list ')' . ':' TYPEID '{' expr '}'
+
+    ':'  shift, and go to state 42
+
+
+State 38
+
+   20 formal_list: formal ',' . formal_list
+
+    OBJECTID  shift, and go to state 28
+
+    formal_list  go to state 43
+    formal       go to state 31
+
+
+State 39
+
+   16 feature: OBJECTID ':' TYPEID ASSIGN . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 58
+
+
+State 40
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' optional_feature_list '}' ';' .
+
+    $default  reduce using rule 7 (class)
+
+
+State 41
+
+   21 formal: OBJECTID ':' TYPEID .
+
+    $default  reduce using rule 21 (formal)
+
+
+State 42
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' . TYPEID '{' expr '}'
+
+    TYPEID  shift, and go to state 59
+
+
+State 43
+
+   20 formal_list: formal ',' formal_list .
+
+    $default  reduce using rule 20 (formal_list)
+
+
+State 44
+
+   45 expr: STR_CONST .
+
+    $default  reduce using rule 45 (expr)
+
+
+State 45
+
+   22 expr: OBJECTID . ASSIGN expr
+   25     | OBJECTID . '(' optional_arg_list ')'
+   43     | OBJECTID .
+
+    ASSIGN  shift, and go to state 60
+    '('     shift, and go to state 61
+
+    $default  reduce using rule 43 (expr)
+
+
+State 46
+
+   44 expr: INT_CONST .
+
+    $default  reduce using rule 44 (expr)
+
+
+State 47
+
+   46 expr: BOOL_CONST .
+
+    $default  reduce using rule 46 (expr)
+
+
+State 48
+
+   26 expr: IF . expr THEN expr ELSE expr FI
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 62
+
+
+State 49
+
+   29 expr: LET . let_binding_list IN expr
+
+    OBJECTID  shift, and go to state 63
+
+    let_binding_list  go to state 64
+    let_binding       go to state 65
+
+
+State 50
+
+   27 expr: WHILE . expr LOOP expr POOL
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 66
+
+
+State 51
+
+   30 expr: CASE . expr OF case_branch_list ESAC
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 67
+
+
+State 52
+
+   34 expr: NOT . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 68
+
+
+State 53
+
+   31 expr: NEW . TYPEID
+
+    TYPEID  shift, and go to state 69
+
+
+State 54
+
+   32 expr: ISVOID . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 70
+
+
+State 55
+
+   33 expr: '~' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 71
+
+
+State 56
+
+   28 expr: '{' . expr_seq '}'
+
+    error       shift, and go to state 72
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr      go to state 73
+    expr_seq  go to state 74
+
+
+State 57
+
+   42 expr: '(' . expr ')'
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 75
+
+
+State 58
+
+   16 feature: OBJECTID ':' TYPEID ASSIGN expr .
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 16 (feature)
+
+
+State 59
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' TYPEID . '{' expr '}'
+
+    '{'  shift, and go to state 85
+
+
+State 60
+
+   22 expr: OBJECTID ASSIGN . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 86
+
+
+State 61
+
+   25 expr: OBJECTID '(' . optional_arg_list ')'
+
+    error       shift, and go to state 87
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    ')'  reduce using rule 47 (optional_arg_list)
+
+    expr               go to state 88
+    optional_arg_list  go to state 89
+    arg_list           go to state 90
+
+
+State 62
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   26     | IF expr . THEN expr ELSE expr FI
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    THEN  shift, and go to state 91
+    LE    shift, and go to state 76
+    '<'   shift, and go to state 77
+    '='   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '+'   shift, and go to state 80
+    '*'   shift, and go to state 81
+    '/'   shift, and go to state 82
+    '@'   shift, and go to state 83
+    '.'   shift, and go to state 84
+
+
+State 63
+
+   60 let_binding: OBJECTID . ':' TYPEID
+   61            | OBJECTID . ':' TYPEID ASSIGN expr
+
+    ':'  shift, and go to state 92
+
+
+State 64
+
+   29 expr: LET let_binding_list . IN expr
+
+    IN  shift, and go to state 93
+
+
+State 65
+
+   58 let_binding_list: let_binding .
+   59                 | let_binding . ',' let_binding_list
+
+    ','  shift, and go to state 94
+
+    $default  reduce using rule 58 (let_binding_list)
+
+
+State 66
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   27     | WHILE expr . LOOP expr POOL
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LOOP  shift, and go to state 95
+    LE    shift, and go to state 76
+    '<'   shift, and go to state 77
+    '='   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '+'   shift, and go to state 80
+    '*'   shift, and go to state 81
+    '/'   shift, and go to state 82
+    '@'   shift, and go to state 83
+    '.'   shift, and go to state 84
+
+
+State 67
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   30     | CASE expr . OF case_branch_list ESAC
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    OF   shift, and go to state 96
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+
+State 68
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   34     | NOT expr .
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 34 (expr)
+
+
+State 69
+
+   31 expr: NEW TYPEID .
+
+    $default  reduce using rule 31 (expr)
+
+
+State 70
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   32     | ISVOID expr .
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 32 (expr)
+
+
+State 71
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   33     | '~' expr .
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 33 (expr)
+
+
+State 72
+
+   56 expr_seq: error . ';' expr_seq
+   57         | error . ';'
+
+    ';'  shift, and go to state 97
+
+
+State 73
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   54 expr_seq: expr . ';'
+   55         | expr . ';' expr_seq
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+    ';'  shift, and go to state 98
+
+
+State 74
+
+   28 expr: '{' expr_seq . '}'
+
+    '}'  shift, and go to state 99
+
+
+State 75
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   42     | '(' expr . ')'
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+    ')'  shift, and go to state 100
+
+
+State 76
+
+   40 expr: expr LE . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 101
+
+
+State 77
+
+   39 expr: expr '<' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 102
+
+
+State 78
+
+   41 expr: expr '=' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 103
+
+
+State 79
+
+   36 expr: expr '-' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 104
+
+
+State 80
+
+   35 expr: expr '+' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 105
+
+
+State 81
+
+   37 expr: expr '*' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 106
+
+
+State 82
+
+   38 expr: expr '/' . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 107
+
+
+State 83
+
+   24 expr: expr '@' . TYPEID '.' OBJECTID '(' optional_arg_list ')'
+
+    TYPEID  shift, and go to state 108
+
+
+State 84
+
+   23 expr: expr '.' . OBJECTID '(' optional_arg_list ')'
+
+    OBJECTID  shift, and go to state 109
+
+
+State 85
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' TYPEID '{' . expr '}'
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 110
+
+
+State 86
+
+   22 expr: OBJECTID ASSIGN expr .
+   23     | expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 22 (expr)
+
+
+State 87
+
+   49 optional_arg_list: error .
+
+    $default  reduce using rule 49 (optional_arg_list)
+
+
+State 88
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   50 arg_list: expr .
+   51         | expr . ',' arg_list
+   52         | expr . error arg_list
+   53         | expr . ',' error
+
+    error  shift, and go to state 111
+    LE     shift, and go to state 76
+    '<'    shift, and go to state 77
+    '='    shift, and go to state 78
+    '-'    shift, and go to state 79
+    '+'    shift, and go to state 80
+    '*'    shift, and go to state 81
+    '/'    shift, and go to state 82
+    '@'    shift, and go to state 83
+    '.'    shift, and go to state 84
+    ','    shift, and go to state 112
+
+    ')'  reduce using rule 50 (arg_list)
+
+
+State 89
+
+   25 expr: OBJECTID '(' optional_arg_list . ')'
+
+    ')'  shift, and go to state 113
+
+
+State 90
+
+   48 optional_arg_list: arg_list .
+
+    $default  reduce using rule 48 (optional_arg_list)
+
+
+State 91
+
+   26 expr: IF expr THEN . expr ELSE expr FI
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 114
+
+
+State 92
+
+   60 let_binding: OBJECTID ':' . TYPEID
+   61            | OBJECTID ':' . TYPEID ASSIGN expr
+
+    TYPEID  shift, and go to state 115
+
+
+State 93
+
+   29 expr: LET let_binding_list IN . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 116
+
+
+State 94
+
+   59 let_binding_list: let_binding ',' . let_binding_list
+
+    OBJECTID  shift, and go to state 63
+
+    let_binding_list  go to state 117
+    let_binding       go to state 65
+
+
+State 95
+
+   27 expr: WHILE expr LOOP . expr POOL
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 118
+
+
+State 96
+
+   30 expr: CASE expr OF . case_branch_list ESAC
+
+    OBJECTID  shift, and go to state 119
+
+    case_branch_list  go to state 120
+    case_branch       go to state 121
+
+
+State 97
+
+   56 expr_seq: error ';' . expr_seq
+   57         | error ';' .
+
+    error       shift, and go to state 72
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    '}'  reduce using rule 57 (expr_seq)
+
+    expr      go to state 73
+    expr_seq  go to state 122
+
+
+State 98
+
+   54 expr_seq: expr ';' .
+   55         | expr ';' . expr_seq
+
+    error       shift, and go to state 72
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    '}'  reduce using rule 54 (expr_seq)
+
+    expr      go to state 73
+    expr_seq  go to state 123
+
+
+State 99
+
+   28 expr: '{' expr_seq '}' .
+
+    $default  reduce using rule 28 (expr)
+
+
+State 100
+
+   42 expr: '(' expr ')' .
+
+    $default  reduce using rule 42 (expr)
+
+
+State 101
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   40     | expr LE expr .
+   41     | expr . '=' expr
+
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    LE   error (nonassociative)
+    '<'  error (nonassociative)
+    '='  error (nonassociative)
+
+    $default  reduce using rule 40 (expr)
+
+
+State 102
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   39     | expr '<' expr .
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    LE   error (nonassociative)
+    '<'  error (nonassociative)
+    '='  error (nonassociative)
+
+    $default  reduce using rule 39 (expr)
+
+
+State 103
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   41     | expr '=' expr .
+
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    LE   error (nonassociative)
+    '<'  error (nonassociative)
+    '='  error (nonassociative)
+
+    $default  reduce using rule 41 (expr)
+
+
+State 104
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   36     | expr '-' expr .
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 36 (expr)
+
+
+State 105
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   35     | expr '+' expr .
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 35 (expr)
+
+
+State 106
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   37     | expr '*' expr .
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 37 (expr)
+
+
+State 107
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   38     | expr '/' expr .
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 38 (expr)
+
+
+State 108
+
+   24 expr: expr '@' TYPEID . '.' OBJECTID '(' optional_arg_list ')'
+
+    '.'  shift, and go to state 124
+
+
+State 109
+
+   23 expr: expr '.' OBJECTID . '(' optional_arg_list ')'
+
+    '('  shift, and go to state 125
+
+
+State 110
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' TYPEID '{' expr . '}'
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+    '}'  shift, and go to state 126
+
+
+State 111
+
+   52 arg_list: expr error . arg_list
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr      go to state 88
+    arg_list  go to state 127
+
+
+State 112
+
+   51 arg_list: expr ',' . arg_list
+   53         | expr ',' . error
+
+    error       shift, and go to state 128
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr      go to state 88
+    arg_list  go to state 129
+
+
+State 113
+
+   25 expr: OBJECTID '(' optional_arg_list ')' .
+
+    $default  reduce using rule 25 (expr)
+
+
+State 114
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   26     | IF expr THEN expr . ELSE expr FI
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    ELSE  shift, and go to state 130
+    LE    shift, and go to state 76
+    '<'   shift, and go to state 77
+    '='   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '+'   shift, and go to state 80
+    '*'   shift, and go to state 81
+    '/'   shift, and go to state 82
+    '@'   shift, and go to state 83
+    '.'   shift, and go to state 84
+
+
+State 115
+
+   60 let_binding: OBJECTID ':' TYPEID .
+   61            | OBJECTID ':' TYPEID . ASSIGN expr
+
+    ASSIGN  shift, and go to state 131
+
+    $default  reduce using rule 60 (let_binding)
+
+
+State 116
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   29     | LET let_binding_list IN expr .
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 29 (expr)
+
+
+State 117
+
+   59 let_binding_list: let_binding ',' let_binding_list .
+
+    $default  reduce using rule 59 (let_binding_list)
+
+
+State 118
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   27     | WHILE expr LOOP expr . POOL
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    POOL  shift, and go to state 132
+    LE    shift, and go to state 76
+    '<'   shift, and go to state 77
+    '='   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '+'   shift, and go to state 80
+    '*'   shift, and go to state 81
+    '/'   shift, and go to state 82
+    '@'   shift, and go to state 83
+    '.'   shift, and go to state 84
+
+
+State 119
+
+   64 case_branch: OBJECTID . ':' TYPEID DARROW expr ';'
+
+    ':'  shift, and go to state 133
+
+
+State 120
+
+   30 expr: CASE expr OF case_branch_list . ESAC
+
+    ESAC  shift, and go to state 134
+
+
+State 121
+
+   62 case_branch_list: case_branch .
+   63                 | case_branch . case_branch_list
+
+    OBJECTID  shift, and go to state 119
+
+    $default  reduce using rule 62 (case_branch_list)
+
+    case_branch_list  go to state 135
+    case_branch       go to state 121
+
+
+State 122
+
+   56 expr_seq: error ';' expr_seq .
+
+    $default  reduce using rule 56 (expr_seq)
+
+
+State 123
+
+   55 expr_seq: expr ';' expr_seq .
+
+    $default  reduce using rule 55 (expr_seq)
+
+
+State 124
+
+   24 expr: expr '@' TYPEID '.' . OBJECTID '(' optional_arg_list ')'
+
+    OBJECTID  shift, and go to state 136
+
+
+State 125
+
+   23 expr: expr '.' OBJECTID '(' . optional_arg_list ')'
+
+    error       shift, and go to state 87
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    ')'  reduce using rule 47 (optional_arg_list)
+
+    expr               go to state 88
+    optional_arg_list  go to state 137
+    arg_list           go to state 90
+
+
+State 126
+
+   14 feature: OBJECTID '(' optional_formal_list ')' ':' TYPEID '{' expr '}' .
+
+    $default  reduce using rule 14 (feature)
+
+
+State 127
+
+   52 arg_list: expr error arg_list .
+
+    $default  reduce using rule 52 (arg_list)
+
+
+State 128
+
+   53 arg_list: expr ',' error .
+
+    $default  reduce using rule 53 (arg_list)
+
+
+State 129
+
+   51 arg_list: expr ',' arg_list .
+
+    $default  reduce using rule 51 (arg_list)
+
+
+State 130
+
+   26 expr: IF expr THEN expr ELSE . expr FI
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 138
+
+
+State 131
+
+   61 let_binding: OBJECTID ':' TYPEID ASSIGN . expr
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 139
+
+
+State 132
+
+   27 expr: WHILE expr LOOP expr POOL .
+
+    $default  reduce using rule 27 (expr)
+
+
+State 133
+
+   64 case_branch: OBJECTID ':' . TYPEID DARROW expr ';'
+
+    TYPEID  shift, and go to state 140
+
+
+State 134
+
+   30 expr: CASE expr OF case_branch_list ESAC .
+
+    $default  reduce using rule 30 (expr)
+
+
+State 135
+
+   63 case_branch_list: case_branch case_branch_list .
+
+    $default  reduce using rule 63 (case_branch_list)
+
+
+State 136
+
+   24 expr: expr '@' TYPEID '.' OBJECTID . '(' optional_arg_list ')'
+
+    '('  shift, and go to state 141
+
+
+State 137
+
+   23 expr: expr '.' OBJECTID '(' optional_arg_list . ')'
+
+    ')'  shift, and go to state 142
+
+
+State 138
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   26     | IF expr THEN expr ELSE expr . FI
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+
+    FI   shift, and go to state 143
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+
+State 139
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   61 let_binding: OBJECTID ':' TYPEID ASSIGN expr .
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+
+    $default  reduce using rule 61 (let_binding)
+
+
+State 140
+
+   64 case_branch: OBJECTID ':' TYPEID . DARROW expr ';'
+
+    DARROW  shift, and go to state 144
+
+
+State 141
+
+   24 expr: expr '@' TYPEID '.' OBJECTID '(' . optional_arg_list ')'
+
+    error       shift, and go to state 87
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    ')'  reduce using rule 47 (optional_arg_list)
+
+    expr               go to state 88
+    optional_arg_list  go to state 145
+    arg_list           go to state 90
+
+
+State 142
+
+   23 expr: expr '.' OBJECTID '(' optional_arg_list ')' .
+
+    $default  reduce using rule 23 (expr)
+
+
+State 143
+
+   26 expr: IF expr THEN expr ELSE expr FI .
+
+    $default  reduce using rule 26 (expr)
+
+
+State 144
+
+   64 case_branch: OBJECTID ':' TYPEID DARROW . expr ';'
+
+    STR_CONST   shift, and go to state 44
+    OBJECTID    shift, and go to state 45
+    INT_CONST   shift, and go to state 46
+    BOOL_CONST  shift, and go to state 47
+    IF          shift, and go to state 48
+    LET         shift, and go to state 49
+    WHILE       shift, and go to state 50
+    CASE        shift, and go to state 51
+    NOT         shift, and go to state 52
+    NEW         shift, and go to state 53
+    ISVOID      shift, and go to state 54
+    '~'         shift, and go to state 55
+    '{'         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expr  go to state 146
+
+
+State 145
+
+   24 expr: expr '@' TYPEID '.' OBJECTID '(' optional_arg_list . ')'
+
+    ')'  shift, and go to state 147
+
+
+State 146
+
+   23 expr: expr . '.' OBJECTID '(' optional_arg_list ')'
+   24     | expr . '@' TYPEID '.' OBJECTID '(' optional_arg_list ')'
+   35     | expr . '+' expr
+   36     | expr . '-' expr
+   37     | expr . '*' expr
+   38     | expr . '/' expr
+   39     | expr . '<' expr
+   40     | expr . LE expr
+   41     | expr . '=' expr
+   64 case_branch: OBJECTID ':' TYPEID DARROW expr . ';'
+
+    LE   shift, and go to state 76
+    '<'  shift, and go to state 77
+    '='  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '+'  shift, and go to state 80
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '@'  shift, and go to state 83
+    '.'  shift, and go to state 84
+    ';'  shift, and go to state 148
+
+
+State 147
+
+   24 expr: expr '@' TYPEID '.' OBJECTID '(' optional_arg_list ')' .
+
+    $default  reduce using rule 24 (expr)
+
+
+State 148
+
+   64 case_branch: OBJECTID ':' TYPEID DARROW expr ';' .
+
+    $default  reduce using rule 64 (case_branch)

@@ -1,0 +1,2 @@
+^C:\PROGRAM1\VSCODE\COMPILER\PROJECT4\WINDOWS\ABSSYNTREE\MAINDRIVER\COOL.YY
+..\..\win_flex_bison-latest\win_bison  -d COOL.yy

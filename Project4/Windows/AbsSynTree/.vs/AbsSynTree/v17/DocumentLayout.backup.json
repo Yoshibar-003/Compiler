@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Program1\\VsCode\\Compiler\\Project4\\Windows\\AbsSynTree\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{54EED439-C13C-4EA6-986C-6D5D2A11625A}|MainDriver\\FlexBisonTools.vcxproj|C:\\Program1\\VsCode\\Compiler\\Project4\\Windows\\AbsSynTree\\MainDriver\\COOL.yy||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{54EED439-C13C-4EA6-986C-6D5D2A11625A}|MainDriver\\FlexBisonTools.vcxproj|solutionrelative:MainDriver\\COOL.yy||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "COOL.yy",
+              "DocumentMoniker": "C:\\Program1\\VsCode\\Compiler\\Project4\\Windows\\AbsSynTree\\MainDriver\\COOL.yy",
+              "RelativeDocumentMoniker": "MainDriver\\COOL.yy",
+              "ToolTip": "C:\\Program1\\VsCode\\Compiler\\Project4\\Windows\\AbsSynTree\\MainDriver\\COOL.yy",
+              "RelativeToolTip": "MainDriver\\COOL.yy",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-03-31T02:06:46.242Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
